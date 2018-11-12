@@ -5,7 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import context from '../context';
 import { View } from './View';
 import { Text } from './Text';
-import { safe } from '../../../util/general';
+import { safe } from '../../util/general';
 
 class _Input extends Component {
   state = {
@@ -207,12 +207,8 @@ class _Input extends Component {
             t={'b2'}
             c={
               maxLength
-                ? limitExceeded
-                  ? 'error'
-                  : null
-                : limitExceeded
-                ? null
-                : 'error'
+                ? limitExceeded ? 'error' : null
+                : limitExceeded ? null : 'error'
             }>
             {lengthText}
           </Text>
