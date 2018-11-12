@@ -11,10 +11,32 @@ import { Checkbox } from './basic/Checkbox';
 import { TextField } from '../../react-native-material-textfield';
 
 class _ComposedInputList extends Component {
+  onSubmitEditing(index) {
+    const { fields, onSubmitForm } = this.props;
+    try {
+      if (fields && fields.length > index + 1) {
+        this[fields[index + 1].id].focus();
+      } else {
+        onSubmitForm();
+      }
+    } catch (e) {
+      console.log('onSubmitEditing', e);
+    }
+  }
+  returnKeyType(index) {
+    const { fields } = this.props;
+    if (fields && fields.length > index + 1) {
+      return 'next';
+    } else {
+      return 'done';
+    }
+  }
+
   renderInput(item, index) {
     const { onChangeText, colors } = this.props;
     const type = safe(item, 'type', '');
     // console.log('item', item);
+
     switch (type) {
       case 'checkbox':
         return (
@@ -30,6 +52,9 @@ class _ComposedInputList extends Component {
       default:
         return (
           <TextField
+            ref={input => {
+              this[item.id] = input;
+            }}
             label={item.label}
             placeholder={item.placeholder}
             title={item.helper}
@@ -38,6 +63,8 @@ class _ComposedInputList extends Component {
             onChangeText={value => onChangeText({ prop: item.id, value })}
             containerBackgroundColor={colors.grey1}
             tintColor={colors.primary}
+            onSubmitEditing={() => this.onSubmitEditing(index)}
+            returnKeyType={this.returnKeyType(index)}
           />
         );
     }
@@ -45,6 +72,7 @@ class _ComposedInputList extends Component {
 
   render() {
     const { fields } = this.props;
+    console.log('fields', fields);
     // const { _containerStyle } = styles;
 
     return (
