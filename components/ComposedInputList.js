@@ -61,10 +61,12 @@ class _ComposedInputList extends Component {
             value={item.value}
             type={item.type}
             onChangeText={value => onChangeText({ prop: item.id, value })}
-            containerBackgroundColor={colors.grey1}
+            // containerBackgroundColor={colors.grey1}
             tintColor={colors.primary}
             onSubmitEditing={() => this.onSubmitEditing(index)}
             returnKeyType={this.returnKeyType(index)}
+            selectTextOnFocus
+            spellCheck={false}
           />
         );
     }
@@ -76,7 +78,8 @@ class _ComposedInputList extends Component {
     // const { _containerStyle } = styles;
 
     return (
-      <View bC={'grey2'} bR={7}>
+      //bC={'grey2'} bR={7}
+      <View>
         <FlatList
           // ref={c => {
           //   this._authLanding = c;

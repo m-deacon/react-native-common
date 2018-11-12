@@ -57,7 +57,7 @@ class _View extends Component {
     // console.log(colors);
 
     return [
-      screen ? { flex: 1, backgroundColor: 'white' } : {},
+      screen ? { flex: 1, backgroundColor: colors.surface } : {},
       {
         margin: m * rem,
         padding: p * rem,
@@ -88,13 +88,14 @@ class _View extends Component {
       behavior,
       screen,
       children,
+      header,
     } = this.props;
 
     if (keyboardAvoiding) {
       return (
         <KeyboardAvoidingView
           keyboardShouldPersistTaps={'always'}
-          style={{ flex: 1, margin: 8 }}
+          style={{ flex: 1 }}
           behavior={
             behavior ? behavior : Platform.OS === 'ios' ? 'padding' : null
           }
@@ -128,7 +129,7 @@ class _View extends Component {
     // }
     return (
       <_view style={this.viewStyle()}>
-        {screen ? (
+        {screen && !header ? (
           <_view
             style={{
               height: Constants.statusBarHeight,
@@ -229,6 +230,7 @@ _View.propTypes = {
   aI: PropTypes.string, // alignItems
   jC: PropTypes.string, // justifyContent
   style: PropTypes.object, // TODO: ViewPropTypes.style, // override text style
+  header: PropTypes.bool, // TODO: ViewPropTypes.style, // override text style
 };
 
 _View.defaultProps = {
@@ -254,6 +256,7 @@ _View.defaultProps = {
   aI: null, // alignItems
   jC: null, // justifyContent
   style: null,
+  header: false, // if header is present - hides to statusbar
 };
 
 const View = context(_View);
