@@ -7,4 +7,4 @@ export * from '../../react-native-material-textfield';
 export * from './basic/Input';
 export * from './basic/Spinner';
 export * from './basic/Output';
-export * from './ComposedInput';
+export * from './ComposedInputList';

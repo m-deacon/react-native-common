@@ -27,11 +27,11 @@ class _Checkbox extends Component {
       viewStyleCheckbox,
     } = styles;
     return (
-      <View style={[viewStyleContainer, { backgroundColor: colors.surface }]}>
+      <View style={[viewStyleContainer, { backgroundColor: colors.grey1 }]}>
         <View style={viewStyleContainerCheckbox}>
           <View style={viewStyleCheckbox}>
             <MaterialIcons
-              onPress={toggleCheck} //value ? {this.setState({ value })} : 'square-outline'}
+              onPress={() => toggleCheck(!value)} //value ? {this.setState({ value })} : 'square-outline'}
               name={value ? 'check-box' : 'check-box-outline-blank'}
               size={32}
               color={value ? colors.primary : 'lightgrey'}
