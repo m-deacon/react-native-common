@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextField } from '../components/react-native-material-textfield';
+import { TextField } from '../react-native-material-textfield';
 import context from './context';
 import { View } from './basic/View';
 
