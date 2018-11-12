@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { TextField } from '../../react-native-material-textfield';
 import context from './context';
 import { View } from './basic/View';
+import { safe } from '../util/general';
 
 function composed(TextField) {
   return class extends React.Component {
     state = { secureTextEntry: false };
 
     componentDidMount() {
-      const type = this.props.data.type;
-      if (type === 'password') {
-        this.onPressPasswordVisibility();
+      const { data } = this.props;
+      if (data) {
+        const type = safe(data, 'type', '');
+        if (type === 'password') {
+          this.onPressPasswordVisibility();
+        }
       }
     }
     // actionTwo(item, index) {
@@ -119,32 +124,44 @@ function composed(TextField) {
       let { secureTextEntry } = this.state;
       // if (isFocused) {
 
-      const { id, label, placeholder, type, validation, helper, secure } = data;
+      console.log(data);
+      if (data) {
+        const {
+          id,
+          label,
+          placeholder,
+          type,
+          validation,
+          helper,
+          secure,
+        } = data;
 
-      return (
-        <View
-          bC={'grey1'}
-          m={0.5}
-          style={{
-            borderTopRightRadius: 5,
-            borderTopLeftRadius: 5,
-            overflow: 'hidden',
-          }}>
-          <TextField
-            {...this.props}
-            label={label}
-            placeholder={placeholder}
-            title={helper}
-            keyboardType={this.keyboardType()}
-            onChangeText={onChangeText}
-            secureTextEntry={secureTextEntry}
-            // maxLength={30}
-            // characterRestriction={20}
-            // renderAccessory={this.renderPasswordAccessory}
-            accessoryRight={this.accessoryRight(type)}
-          />
-        </View>
-      );
+        return (
+          <View
+            bC={'grey1'}
+            m={0.5}
+            style={{
+              borderTopRightRadius: 5,
+              borderTopLeftRadius: 5,
+              overflow: 'hidden',
+            }}>
+            <TextField
+              {...this.props}
+              label={label}
+              placeholder={placeholder}
+              title={helper}
+              keyboardType={this.keyboardType()}
+              onChangeText={onChangeText}
+              secureTextEntry={secureTextEntry}
+              // maxLength={30}
+              // characterRestriction={20}
+              // renderAccessory={this.renderPasswordAccessory}
+              accessoryRight={this.accessoryRight(type)}
+            />
+          </View>
+        );
+      }
+      return <View />;
     }
   };
 }
