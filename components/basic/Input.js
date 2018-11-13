@@ -192,7 +192,7 @@ class _Input extends Component {
 
     return (
       <View style={this.viewStyleContainer()}>
-        <View fD={'row'}>
+        {/* <View fD={'row'}>
           <View f={1} fD={'column'}>
             <Text>{label}</Text>
             <Text>{value}</Text>
@@ -212,7 +212,7 @@ class _Input extends Component {
             }>
             {lengthText}
           </Text>
-        </View>
+        </View> */}
       </View>
     );
     // return (
