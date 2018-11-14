@@ -10,6 +10,9 @@ import { safe } from '../util/general';
 import { Checkbox } from './basic/Checkbox';
 import { TextField } from '../../react-native-material-textfield';
 
+import { Formik, FormikProps, Form, Field } from 'formik';
+import { Button } from './basic/Button';
+
 class _ComposedInputList extends Component {
   onSubmitEditing(index) {
     const { fields, onSubmitForm } = this.props;
@@ -32,7 +35,7 @@ class _ComposedInputList extends Component {
     }
   }
 
-  renderInput(item, index) {
+  renderInput(item, index, props) {
     const { onChangeText, colors } = this.props;
     const type = safe(item, 'type', '');
     // console.log('item', item);
@@ -58,9 +61,11 @@ class _ComposedInputList extends Component {
             label={item.label}
             placeholder={item.placeholder}
             title={item.helper}
-            value={item.value}
+            value={props.values[item.id]}
             type={item.type}
-            onChangeText={value => onChangeText({ prop: item.id, value })}
+            onChangeText={props.handleChange(item.id)}
+            onBlur={props.handleBlur(item.id)}
+            // onChangeText={value => onChangeText({ prop: item.id, value })}
             // containerBackgroundColor={colors.grey1}
             tintColor={colors.primary}
             onSubmitEditing={() => this.onSubmitEditing(index)}
@@ -72,28 +77,72 @@ class _ComposedInputList extends Component {
     }
   }
 
+  // render() {
+  //   const { fields } = this.props;
+  //   console.log('fields', fields);
+  //   // const { _containerStyle } = styles;
+  //   handleSubmit = (values, {
+  //     props = this.props,
+  //     setSubmitting
+  //   }) => {
+
+  //   //process form submission here
+  //   //done submitting, set submitting to false
+  //   setSubmitting(false);
+  //   return;
+  // }
   render() {
     const { fields } = this.props;
     console.log('fields', fields);
-    // const { _containerStyle } = styles;
-
     return (
-      //bC={'grey2'} bR={7}
-      <View>
-        <FlatList
-          // ref={c => {
-          //   this._authLanding = c;
-          // }}
+      <Formik
+        initialValues={{ email: '' }}
+        onSubmit={values => console.log(values)}>
+        {props => (
+          <View>
+            <FlatList
+              // ref={c => {
+              //   this._authLanding = c;
+              // }}
 
-          data={fields}
-          renderItem={({ item, index }) => this.renderInput(item, index)}
-          keyExtractor={item => safe(item, 'id', '')}
-          // scrollEnabled={false}
-          // keyboardShouldPersistTaps={'always'}
-        />
-      </View>
+              data={fields}
+              renderItem={({ item, index }) =>
+                this.renderInput(item, index, props)
+              }
+              keyExtractor={item => safe(item, 'id', '')}
+              // scrollEnabled={false}
+              // keyboardShouldPersistTaps={'always'}
+            />
+            {/* <TextField
+              onChangeText={props.handleChange('email')}
+              onBlur={props.handleBlur('email')}
+              label={'Email'}
+              value={props.values.email}
+            /> */}
+            <Button onPress={props.handleSubmit} label="SUBMIT" />
+          </View>
+        )}
+      </Formik>
     );
   }
+
+  // return (
+  //   //bC={'grey2'} bR={7}
+  //   <View>
+  //     <FlatList
+  //       // ref={c => {
+  //       //   this._authLanding = c;
+  //       // }}
+
+  //       data={fields}
+  //       renderItem={({ item, index }) => this.renderInput(item, index)}
+  //       keyExtractor={item => safe(item, 'id', '')}
+  //       // scrollEnabled={false}
+  //       // keyboardShouldPersistTaps={'always'}
+  //     />
+  //   </View>
+  // );
+  // }
 }
 
 const ComposedInputList = context(_ComposedInputList);
