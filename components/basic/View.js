@@ -95,18 +95,15 @@ class _View extends Component {
       return (
         <KeyboardAvoidingView
           keyboardShouldPersistTaps={'always'}
-          style={{ flex: 1 }}
+          style={this.viewStyle()}
           behavior={
             behavior ? behavior : Platform.OS === 'ios' ? 'padding' : null
           }
           // keyboardVerticalOffset={behavior ? 0 : -200}
-          //
         >
-          <_view
-            // style={{ margin: 8, height: 200 }}
-            style={this.viewStyle()}>
+          <React.Fragment>
             {scrollView ? this.renderScrollView() : this.renderContent()}
-          </_view>
+          </React.Fragment>
         </KeyboardAvoidingView>
       );
     }

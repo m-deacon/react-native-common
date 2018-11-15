@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
-import { TextInput, Platform } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  FlatList,
+  Platform,
+  SectionList,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import { MaterialIcons } from '@expo/vector-icons';
+// import CountryPicker from 'react-native-country-picker-modal';
+// import { ListItem, ListSeparator } from './ListItem';
 import context from '../context';
-import { View } from './View';
-import { Text } from './Text';
-import { safe } from '../../util/general';
+// import { TextInputMask } from 'react-native-masked-text';
 
 class _Input extends Component {
   state = {
@@ -27,7 +34,6 @@ class _Input extends Component {
     this.setState({
       focused: true,
     });
-    this.props.onFocus();
   }
 
   togglePasswordVisibility = () => {
@@ -74,7 +80,36 @@ class _Input extends Component {
       textStyleCode,
     } = styles;
 
-    const { focused, secureTextEntry } = this.state;
+    const { focused, secureTextEntry, cca2 } = this.state;
+
+    // if (type === 'money') {
+    //   return (
+    //     <TextInputMask
+    //       type={'money'}
+    //       options={{
+    //         precision: precision,
+    //         unit: unit,
+    //       }}
+    //       style={textStyleInput}
+    //       onFocus={() => this._OnFocus()}
+    //       onBlur={() => this._OnBlur()}
+    //       underlineColorAndroid="transparent"
+    //       autoCapitalize={autoCapitalize ? autoCapitalize : 'none'}
+    //       autoCorrect={autoCorrect ? autoCorrect : false}
+    //       placeholder={focused ? placeholder : label}
+    //       value={value ? value : '0'}
+    //       onChangeText={onChangeText}
+    //       refInput={reference}
+    //       selectTextOnFocus
+    //       secureTextEntry={secureTextEntry}
+    //       keyboardType={keyboardType}
+    //       returnKeyType={returnKeyType}
+    //       onSubmitEditing={onSubmitEditing}
+    //       autoFocus={autoFocus}
+    //       blurOnSubmit={false}
+    //     />
+    //   );
+    // }
 
     return (
       <View
@@ -120,12 +155,9 @@ class _Input extends Component {
 
   viewStyleContainer() {
     const { focused } = this.state;
-    const { colors } = this.props;
-    let style = { ...styles.viewStyleContainer, backgroundColor: colors.grey1 };
     if (focused) {
       if (Platform.OS === 'ios') {
-        style = {
-          ...style,
+        return {
           shadowColor: 'rgba(0, 0, 0, 0.6)',
           shadowOpacity: 0.15,
           shadowRadius: 3,
@@ -135,14 +167,11 @@ class _Input extends Component {
           },
         };
       } else {
-        style = { ...style, elevation: 10 };
+        return { elevation: 10 };
       }
       //
-    } else {
-      style = { ...style, elevation: 1 };
     }
-
-    return style;
+    return { elevation: 1 };
   }
 
   render() {
@@ -150,7 +179,7 @@ class _Input extends Component {
       label,
       value,
       required,
-      errorText,
+      inputError,
       helperText,
       data,
       loadingData,
@@ -165,8 +194,6 @@ class _Input extends Component {
       sections,
       scannable,
       prop,
-      length,
-      maxLength,
     } = this.props;
 
     const {
@@ -179,142 +206,222 @@ class _Input extends Component {
       viewStyleCheckbox,
       iconStyleVisibility,
     } = styles;
-    // console.log('sections', sections);
-    // console.log('colors', colors);
 
     const { borderColor, focused, iconNameVisibility } = this.state;
+    try {
+      return (
+        <View style={this.viewStyleContainer()}>
+          <View
+            style={[
+              viewStyleContainer,
+              {
+                backgroundColor: colors.primaryContrast,
+              },
+            ]}>
+            <View
+              style={{
+                flexDirection: 'row',
+                borderColor: inputError
+                  ? colors.error
+                  : focused ? colors.focus : 'lightgrey',
+                borderBottomWidth: inputError || focused ? 2 : 2,
+                justifyContent: 'space-around',
+              }}>
+              {toggleCheck ? (
+                <View style={viewStyleCheckbox}>
+                  <MaterialIcons
+                    onPress={toggleCheck} //value ? {this.setState({ value })} : 'square-outline'}
+                    name={checked ? 'check-box' : 'check-box-outline-blank'}
+                    size={32}
+                    color={checked ? colors.primary : 'lightgrey'}
+                  />
+                </View>
+              ) : null}
+              <View style={[viewStyleContent, { flex: 1 }]}>
+                {focused || value ? (
+                  <View style={viewStyleLabel}>
+                    <Text
+                      style={[
+                        textStyleLabel,
+                        {
+                          color: inputError
+                            ? colors.error
+                            : focused ? colors.focus : 'rgba(0,0,0,0.6)',
+                        },
+                      ]}>
+                      {label}
+                      {required ? ' *' : ''}
+                    </Text>
+                  </View>
+                ) : null}
+                {this.renderInput()}
+              </View>
 
-    const valueLength = safe(value, 'length', 0);
-    const lengthText = length
-      ? valueLength.toString() + '/' + length.toString()
-      : '';
-    const limitExceeded = valueLength > length;
+              {type === 'password' ? (
+                <View style={{ justifyContent: 'center' }}>
+                  <MaterialIcons
+                    style={[
+                      iconStyleVisibility,
+                      {
+                        color: inputError
+                          ? colors.error
+                          : focused ? colors.focus : 'rgba(0,0,0,0.6)',
+                      },
+                    ]}
+                    name={iconNameVisibility}
+                    size={24}
+                    color={borderColor}
+                    onPress={this.togglePasswordVisibility}
+                  />
+                </View>
+              ) : null}
 
-    return (
-      <View style={this.viewStyleContainer()}>
-        {/* <View fD={'row'}>
-          <View f={1} fD={'column'}>
-            <Text>{label}</Text>
-            <Text>{value}</Text>
+              {scannable ? (
+                <View style={{ justifyContent: 'center' }}>
+                  <MaterialIcons
+                    style={[
+                      iconStyleVisibility,
+                      {
+                        color: focused ? colors.focus : 'rgba(0,0,0,0.6)',
+                      },
+                    ]}
+                    name={'camera'}
+                    size={24}
+                    color={focused ? colors.focus : 'rgba(0,0,0,0.6)'}
+                    onPress={() =>
+                      this.props.navigation.navigate('InputScanner', { prop })
+                    }
+                  />
+                </View>
+              ) : null}
+            </View>
+
+            {inputError || helperText ? (
+              <View style={viewStyleHelper}>
+                <Text
+                  style={[
+                    textStyleFooter,
+                    {
+                      color: inputError ? colors.error : colors.primaryContrast,
+                    },
+                  ]}>
+                  {inputError ? inputError : helperText}
+                </Text>
+              </View>
+            ) : null}
+
+            {/* {data.length > 0 && focused ? (
+              <FlatList
+                keyboardShouldPersistTaps="always"
+                style={{
+                  backgroundColor: colors.primaryContrast,
+                  maxHeight: 180,
+                  borderBottomLeftRadius: 5,
+                  borderBottomRightRadius: 5,
+                  overflow: 'hidden',
+                }}
+                contentContainerStyle={{
+                  borderBottomLeftRadius: 5,
+                  borderBottomRightRadius: 5,
+                  overflow: 'hidden',
+                }}
+                data={data}
+                renderItem={({ item, section }) => (
+                  <ListItem
+                    onPress={() => onPressListItem(item)}
+                    title={section.title ? section.title(item) : item}
+                    subtitle={section.subtitle ? section.subtitle(item) : ''}
+                    image={
+                      section.icon
+                        ? section.icon(item)
+                        : item.image ? item.image : null
+                    }
+                  />
+                )}
+                keyExtractor={item => (item.id ? item.id.toString() : item)}
+                ItemSeparatorComponent={ListSeparator}
+              />
+            ) : null} */}
+            {/* {sections.length > 0 && focused ? (
+              <SectionList
+                keyboardShouldPersistTaps="always"
+                style={{
+                  backgroundColor: colors.grey1,
+                  maxHeight: 240,
+                  borderBottomLeftRadius: 5,
+                  borderBottomRightRadius: 5,
+                  overflow: 'hidden',
+                  paddingBottom: 4,
+                }}
+                contentContainerStyle={{
+                  borderBottomLeftRadius: 5,
+                  borderBottomRightRadius: 5,
+                  overflow: 'hidden',
+                }}
+                sections={sections}
+                renderItem={({ item, section }) => (
+                  // <View style={{ height: 150 }} />
+                  <ListItem
+                    onPress={() =>
+                      section.listItemOnPress
+                        ? section.listItemOnPress(item)
+                        : {}
+                    }
+                    title={
+                      section.listItemTitle ? section.listItemTitle(item) : item
+                    }
+                    subtitle={
+                      section.listItemSubtitle
+                        ? section.listItemSubtitle(item)
+                        : ''
+                    }
+                    image={
+                      section.listItemIcon
+                        ? section.listItemIcon(item)
+                        : item.image ? item.image : null
+                    }
+                  />
+                )}
+                renderSectionHeader={({ section }) => (
+                  <View
+                    style={{
+                      // paddingRight: 8,
+                      borderBottomWidth: 0.5,
+                      borderBottomColor: colors.font,
+                      // padding: 4,
+                      paddingTop: 8,
+                      paddingLeft: 16,
+                      backgroundColor: colors.grey1,
+                      borderBottomEndRadius: 8,
+                      borderBottomStartRadius: 8,
+                    }}>
+                    <Text
+                      style={{
+                        // backgroundColor: '#64B5F6',
+                        fontSize: 10,
+                        padding: 5,
+                        color: colors.font,
+                        fontWeight: 'bold',
+                      }}>
+                      {section.title}{' '}
+                    </Text>
+                  </View>
+                )}
+                keyExtractor={item => item.id.toString()}
+                ItemSeparatorComponent={ListSeparator}
+              />
+            ) : null} */}
           </View>
-          <View h={64} w={64} bC={'orange'} />
         </View>
-        <View fD={'row'} jC={'space-between'} p={0.25}>
-          <Text t={'b2'} c={errorText ? 'error' : null}>
-            {errorText ? errorText : helperText}
-          </Text>
-          <Text
-            t={'b2'}
-            c={
-              maxLength
-                ? limitExceeded ? 'error' : null
-                : limitExceeded ? null : 'error'
-            }>
-            {lengthText}
-          </Text>
-        </View> */}
-      </View>
-    );
-    // return (
-    //   <View style={this.viewStyleContainer()}>
-    //       <View
-    //         style={{
-    //           flexDirection: 'row',
-    //           borderColor: inputError
-    //             ? colors.error
-    //             : focused
-    //             ? colors.focus
-    //             : 'lightgrey',
-    //           borderBottomWidth: inputError || focused ? 2 : 2,
-    //           justifyContent: 'space-around',
-    //         }}>
-    //         {toggleCheck ? (
-    //           <View style={viewStyleCheckbox}>
-    //             <MaterialIcons
-    //               onPress={toggleCheck} //value ? {this.setState({ value })} : 'square-outline'}
-    //               name={checked ? 'check-box' : 'check-box-outline-blank'}
-    //               size={32}
-    //               color={checked ? colors.primary : 'lightgrey'}
-    //             />
-    //           </View>
-    //         ) : null}
-    //         <View style={[viewStyleContent, { flex: 1 }]}>
-    //           {focused || value ? (
-    //             <View style={viewStyleLabel}>
-    //               <Text
-    //                 style={[
-    //                   textStyleLabel,
-    //                   {
-    //                     color: inputError
-    //                       ? colors.error
-    //                       : focused
-    //                       ? colors.focus
-    //                       : 'rgba(0,0,0,0.6)',
-    //                   },
-    //                 ]}>
-    //                 {label}
-    //                 {required ? ' *' : ''}
-    //               </Text>
-    //             </View>
-    //           ) : null}
-    //           {this.renderInput()}
-    //         </View>
-
-    //         {/* {type === 'password' ? (
-    //             <View style={{ justifyContent: 'center' }}>
-    //               <MaterialIcons
-    //                 style={[
-    //                   iconStyleVisibility,
-    //                   {
-    //                     color: inputError
-    //                       ? colors.error
-    //                       : focused ? colors.focus : 'rgba(0,0,0,0.6)',
-    //                   },
-    //                 ]}
-    //                 name={iconNameVisibility}
-    //                 size={24}
-    //                 color={borderColor}
-    //                 onPress={this.togglePasswordVisibility}
-    //               />
-    //             </View>
-    //           ) : null} */}
-
-    //         {/* {scannable ? (
-    //             <View style={{ justifyContent: 'center' }}>
-    //               <MaterialIcons
-    //                 style={[
-    //                   iconStyleVisibility,
-    //                   {
-    //                     color: focused ? colors.focus : 'rgba(0,0,0,0.6)',
-    //                   },
-    //                 ]}
-    //                 name={'camera'}
-    //                 size={24}
-    //                 color={focused ? colors.focus : 'rgba(0,0,0,0.6)'}
-    //                 onPress={() =>
-    //                   this.props.navigation.navigate('InputScanner', { prop })
-    //                 }
-    //               />
-    //             </View>
-    //           ) : null} */}
-    //       </View>
-
-    //       {inputError || helperText ? (
-    //         <View style={viewStyleHelper}>
-    //           <Text
-    //             style={[
-    //               textStyleFooter,
-    //               {
-    //                 color: inputError ? colors.error : colors.primaryContrast,
-    //               },
-    //             ]}>
-    //             {inputError ? inputError : helperText}
-    //           </Text>
-    //         </View>
-    //       ) : null}
-    //     </View>
-    // );
+      );
+    } catch (error) {
+      console.log(error);
+    }
   }
+
+  // _renderSeparator = () => (
+
+  // );
 }
 
 _Input.propTypes = {
@@ -327,8 +434,7 @@ _Input.propTypes = {
   size: PropTypes.string, // Size of button (small / default or '' / large)
   type: PropTypes.string, // Type of button (text, contained, TODO: outlined)
   colors: PropTypes.object, // Button color
-  onBlur: PropTypes.func, // Function to execute on blur
-  onFocus: PropTypes.func, // Function to execute on blur
+  onBlur: PropTypes.func, // Function to execute on press
   sections: PropTypes.array,
   data: PropTypes.array,
   scannable: PropTypes.bool,
@@ -343,9 +449,7 @@ _Input.defaultProps = {
   icon: '',
   size: '',
   type: 'contained',
-  colors: {},
   onBlur: () => {},
-  onFocus: () => {},
   sections: [],
   data: [],
   scannable: false,
