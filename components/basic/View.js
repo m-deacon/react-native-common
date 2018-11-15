@@ -25,7 +25,7 @@ class _View extends Component {
     return (
       <ScrollView
         // style={{ flex: 1 }}
-        keyboardDismissMode={'interactive'}
+        // keyboardDismissMode={'interactive'}
         keyboardShouldPersistTaps="always">
         {this.renderContent()}
       </ScrollView>
@@ -65,7 +65,7 @@ class _View extends Component {
         height: h,
         width: w,
       },
-      // scrollView ? { flex: 1 } : {},
+      scrollView ? { flex: 1 } : {},
       bC ? { backgroundColor: colors[bC] ? colors[bC] : bC } : {},
       bR ? { borderRadius: bR, overflow: 'hidden' } : {},
       fD ? { flexDirection: fD } : {},
@@ -91,14 +91,19 @@ class _View extends Component {
       header,
     } = this.props;
 
+    const viewProps = {
+      ...(behavior
+        ? { behavior }
+        : Platform.OS === 'ios' ? { behaviour: 'padding' } : {}),
+    };
+
     if (keyboardAvoiding) {
       return (
         <KeyboardAvoidingView
+          {...viewProps}
           keyboardShouldPersistTaps={'always'}
           style={this.viewStyle()}
-          behavior={
-            behavior ? behavior : Platform.OS === 'ios' ? 'padding' : null
-          }
+
           // keyboardVerticalOffset={behavior ? 0 : -200}
         >
           <React.Fragment>
@@ -107,23 +112,6 @@ class _View extends Component {
         </KeyboardAvoidingView>
       );
     }
-    // if (scrollView) {
-    //   return (
-    //     <_view style={this.viewStyle()}>
-    //       {/* <KeyboardAvoidingView
-    //         keyboardShouldPersistTaps={'always'}
-    //         style={{ flex: 1 }}
-    //         behavior={
-    //           behavior ? behavior : Platform.OS === 'ios' ? 'padding' : null
-    //         }
-    //         // keyboardVerticalOffset={behavior ? 0 : -200}
-    //         //
-    //       >
-    //       </KeyboardAvoidingView> */}
-    //       {scrollView ? this.renderScrollView() : this.renderContent()}
-    //     </_view>
-    //   );
-    // }
     return (
       <_view style={this.viewStyle()}>
         {screen && !header ? (
@@ -136,7 +124,7 @@ class _View extends Component {
               style={{
                 height: Constants.statusBarHeight,
                 backgroundColor: 'black',
-                opacity: 0.15,
+                opacity: 0.13,
               }}
             />
           </_view>
