@@ -9,6 +9,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import context from '../context';
 import { Text } from './Text';
 import { View } from './View';
+import { Spinner } from './Spinner';
+import { safe } from '../../util/general';
 
 class _Button extends Component {
   _buttonStyle() {
@@ -21,10 +23,13 @@ class _Button extends Component {
       buttonStyle,
       colors,
       wide,
+      disabled,
     } = this.props;
 
     let backgroundColor = 'transparent';
-    if (type === 'contained') {
+    if (disabled) {
+      backgroundColor = colors['grey3'];
+    } else if (type === 'contained') {
       backgroundColor = colors[color] ? colors[color] : color;
     }
     return {
@@ -33,11 +38,7 @@ class _Button extends Component {
       height: size === 'large' ? 40 : size === 'small' ? 30 : 36,
       borderRadius:
         design.roundButtons || round
-          ? size === 'large'
-            ? 20
-            : size === 'small'
-            ? 15
-            : 18
+          ? size === 'large' ? 20 : size === 'small' ? 15 : 18
           : 2.5,
       shadowRadius: design.buttonShadow,
       flex: wide ? 1 : 0,
@@ -46,18 +47,22 @@ class _Button extends Component {
   }
 
   textStyle() {
-    const { size, type, color, colors, textStyle } = this.props;
-
-    let textColor = colors[color];
-    if (type === 'contained') {
-      textColor = colors[color + 'Contrast'];
-    }
+    const { size, textStyle } = this.props;
 
     return {
-      color: textColor,
+      color: this.fontColor(),
       fontSize: size === 'large' ? 18 : size === 'small' ? 12 : 14,
       ...textStyle,
     };
+  }
+
+  fontColor() {
+    const { color, colors, type } = this.props;
+    let fontColor = safe(colors, color, color);
+    if (type === 'contained') {
+      fontColor = colors[color + 'Contrast'];
+    }
+    return fontColor;
   }
 
   render() {
@@ -71,6 +76,8 @@ class _Button extends Component {
       icon,
       containerStyle,
       design,
+      loading,
+      textColor,
     } = this.props;
     const { _containerStyle } = styles;
     return (
@@ -87,11 +94,13 @@ class _Button extends Component {
           disabled={disabled}
           style={this._buttonStyle()}>
           <View fD={'row'} aI={'center'}>
-            {icon ? (
+            {loading ? (
+              <Spinner color={this.fontColor()} />
+            ) : icon ? (
               <Icon
                 name={icon}
                 size={size === 'large' ? 26 : size === 'small' ? 18 : 22}
-                color={textColor}
+                color={this.fontColor()}
               />
             ) : null}
             <Text t="bu" o={disabled ? 0.85 : 1} style={this.textStyle()}>
@@ -123,6 +132,7 @@ _Button.propTypes = {
   colors: PropTypes.object, // colors from context
   design: PropTypes.object, // design from context
   wide: PropTypes.bool,
+  loading: PropTypes.bool,
 };
 
 _Button.defaultProps = {
@@ -140,6 +150,7 @@ _Button.defaultProps = {
   color: 'primary',
   design: { roundButtons: false },
   wide: false,
+  loading: false,
 };
 
 const styles = {
