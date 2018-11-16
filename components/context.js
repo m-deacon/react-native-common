@@ -16,6 +16,7 @@ const context = ComposedComponent => {
               design={context.design}
               profile={context.profile}
               rem={context.rem}
+              services={context.services}
             />
           )}
         </ThemeContext.Consumer>

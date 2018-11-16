@@ -19,7 +19,7 @@ class _View extends Component {
   renderContent() {
     const { children, keyboardAvoiding, scrollView } = this.props;
     // if (keyboardAvoiding || scrollView) {
-    return children;
+    return <React.Fragment>{children}</React.Fragment>;
   }
   renderScrollView() {
     return (
@@ -89,12 +89,14 @@ class _View extends Component {
       screen,
       children,
       header,
+      colors,
+      bC,
     } = this.props;
 
     const viewProps = {
       ...(behavior
         ? { behavior }
-        : Platform.OS === 'ios' ? { behaviour: 'padding' } : {}),
+        : Platform.OS === 'ios' ? { behavior: 'padding' } : {}),
     };
 
     if (keyboardAvoiding) {
@@ -103,12 +105,10 @@ class _View extends Component {
           {...viewProps}
           keyboardShouldPersistTaps={'always'}
           style={this.viewStyle()}
-
-          // keyboardVerticalOffset={behavior ? 0 : -200}
+          keyboardVerticalOffset={behavior === 'position' ? -90 : 0}
+          //
         >
-          <React.Fragment>
-            {scrollView ? this.renderScrollView() : this.renderContent()}
-          </React.Fragment>
+          {scrollView ? this.renderScrollView() : this.renderContent()}
         </KeyboardAvoidingView>
       );
     }
@@ -118,13 +118,17 @@ class _View extends Component {
           <_view
             style={{
               height: Constants.statusBarHeight,
-              // backgroundColor: design.surface ? colors.surface : colors.header,
+              backgroundColor: bC
+                ? colors[bC] ? colors[bC] : bC
+                : 'transparent',
+              zIndex: 5,
             }}>
             <_view
               style={{
                 height: Constants.statusBarHeight,
                 backgroundColor: 'black',
                 opacity: 0.13,
+                zIndex: 6,
               }}
             />
           </_view>

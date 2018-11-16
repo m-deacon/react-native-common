@@ -1,8 +1,18 @@
-export const performDivisibility = (balance, divisibility) => {
+export const formatDivisibility = (amount, divisibility) => {
+  // let temp = amount.toFixed(1);
   for (let i = 0; i < divisibility; i++) {
-    balance = balance / 10;
+    amount = amount / 10;
+    // console.log('amount', temp);
   }
-  return balance;
+  // console.log('amount return', temp);
+  return amount;
+};
+
+export const parseDivisibility = (amount, divisibility) => {
+  for (let i = 0; i < divisibility; i++) {
+    amount = amount * 10;
+  }
+  return amount;
 };
 
 export const standardizeString = (string, capitalise = true) => {
@@ -10,7 +20,7 @@ export const standardizeString = (string, capitalise = true) => {
     if (capitalise) {
       return (string.charAt(0).toUpperCase() + string.slice(1)).replace(
         '_',
-        ' ',
+        ' '
       );
     } else {
       return string.replace('_', ' ');
