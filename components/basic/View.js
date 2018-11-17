@@ -91,6 +91,7 @@ class _View extends Component {
       header,
       colors,
       bC,
+      hC,
     } = this.props;
 
     const viewProps = {
@@ -118,9 +119,9 @@ class _View extends Component {
           <_view
             style={{
               height: Constants.statusBarHeight,
-              backgroundColor: bC
-                ? colors[bC] ? colors[bC] : bC
-                : 'transparent',
+              backgroundColor: hC
+                ? colors[hC]
+                : bC ? colors[bC] : 'transparent',
               zIndex: 5,
             }}>
             <_view
@@ -212,6 +213,7 @@ _View.propTypes = {
   ph: PropTypes.number, // padding horizontal
   o: PropTypes.number, // opacity
   bC: PropTypes.string, // backgroundColor
+  hC: PropTypes.string, // headerColor
   bR: PropTypes.number, // borderRadius
   colors: PropTypes.object, // colors object from context
   rem: PropTypes.number, // rem value
@@ -246,6 +248,7 @@ _View.defaultProps = {
   jC: null, // justifyContent
   style: null,
   header: false, // if header is present - hides to statusbar
+  hC: null, // statusbar colour
 };
 
 const View = context(_View);

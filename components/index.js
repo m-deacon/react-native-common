@@ -8,3 +8,4 @@ export * from './basic/Input';
 export * from './basic/Spinner';
 export * from './basic/Output';
 export * from './ComposedInputList';
+export * from './ComposedInputDropdown';

@@ -1,14 +1,13 @@
 export const formatDivisibility = (amount, divisibility) => {
-  // let temp = amount.toFixed(1);
   for (let i = 0; i < divisibility; i++) {
     amount = amount / 10;
-    // console.log('amount', temp);
   }
-  // console.log('amount return', temp);
-  return amount;
+  return amount.toFixed(divisibility);
 };
 
 export const parseDivisibility = (amount, divisibility) => {
+  console.log('amount', amount);
+  amount = parseFloat(amount);
   for (let i = 0; i < divisibility; i++) {
     amount = amount * 10;
   }
