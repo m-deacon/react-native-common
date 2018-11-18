@@ -1,17 +1,52 @@
 export const formatDivisibility = (amount, divisibility) => {
+  // console.log('formatDivisibility:amount', amount);
+  // let temp = amount.toString();
+  // console.log('temp', temp);
+  // const pos = temp.length - divisibility;
+  // console.log('pos', pos);
+  // if (pos > 0) {
+  //   let temp2 = temp.slice(0, pos);
+  //   console.log('temp2', temp2);
+  //   let temp3 = temp.slice(pos);
+  //   console.log('temp3', temp3);
+  //   temp = temp2 + '.' + temp3;
+  //   // temp = temp.slice(pos, 0, '.');
+  // } else {
+  //   temp = '0.' + pos !== 0 ? '0'.repeat(-pos - 1) : '' + temp;
+  // }
+  // console.log('temp', temp);
+  // return temp;
+  // console.log('temp.length', temp.length);
+  //   const decimals = getDecimals()
+  // let tokenVolume = getBalance() * 10**-decimals
   for (let i = 0; i < divisibility; i++) {
     amount = amount / 10;
   }
+  // console.log('amount', amount);
   return amount.toFixed(divisibility);
 };
 
-export const parseDivisibility = (amount, divisibility) => {
-  console.log('amount', amount);
-  amount = parseFloat(amount);
-  for (let i = 0; i < divisibility; i++) {
-    amount = amount * 10;
+export const parseDivisibility = (raw, divisibility, newCharacter) => {
+  let amountString = raw.replace('.', '');
+  let pos = amountString.length - divisibility;
+  let amountInt = parseInt(amountString);
+
+  if (newCharacter) {
+    if ((newCharacter === '.' || newCharacter === ',') && pos > 0) {
+      amountInt = amountInt * 10 ** divisibility;
+    } else {
+      // console.log('newCharacter', newCharacter);
+      newCharacter = parseInt(newCharacter);
+      // console.log('newCharacter', newCharacter);
+      if (!isNaN(newCharacter)) {
+        amountInt = amountInt * 10 + newCharacter;
+      }
+    }
+  } else {
+    // console.log('no newChar');
   }
-  return amount;
+
+  return isNaN(amountInt) ? 0 : amountInt;
 };
 
 export const standardizeString = (string, capitalise = true) => {
@@ -126,3 +161,9 @@ export const safe = (item, field, value = '') =>
   item && item[field] ? item[field] : value;
 
 export const bounds = (value, min, max) => Math.min(max, Math.max(min, value));
+
+export function removeDuplicates(myArr, prop) {
+  return myArr.filter((obj, pos, arr) => {
+    return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
+  });
+}

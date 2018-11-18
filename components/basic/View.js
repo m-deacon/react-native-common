@@ -25,8 +25,8 @@ class _View extends Component {
     return (
       <ScrollView
         // style={{ flex: 1 }}
-        // keyboardDismissMode={'interactive'}
-        keyboardShouldPersistTaps="always">
+        keyboardDismissMode={'interactive'}
+        keyboardShouldPersistTaps="handled">
         {this.renderContent()}
       </ScrollView>
     );
@@ -92,6 +92,7 @@ class _View extends Component {
       colors,
       bC,
       hC,
+      design,
     } = this.props;
 
     const viewProps = {
@@ -120,7 +121,7 @@ class _View extends Component {
             style={{
               height: Constants.statusBarHeight,
               backgroundColor: hC
-                ? colors[hC]
+                ? colors[design.surface ? 'surface' : hC]
                 : bC ? colors[bC] : 'transparent',
               zIndex: 5,
             }}>

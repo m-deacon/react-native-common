@@ -27,7 +27,7 @@ class _Button extends Component {
     } = this.props;
 
     let backgroundColor = 'transparent';
-    if (disabled) {
+    if (disabled && type !== 'text') {
       backgroundColor = colors['grey3'];
     } else if (type === 'contained') {
       backgroundColor = colors[color] ? colors[color] : color;

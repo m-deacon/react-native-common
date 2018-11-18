@@ -15,8 +15,26 @@ import { Text } from './basic/Text';
 import { ListItem, ListSeparator } from '../../../app/components/common';
 
 class _ComposedInputDropdown extends Component {
+  state = { focused: false };
+  componentDidUpdate() {
+    const { focused } = this.state;
+    const isFocused = this.textField ? this.textField.isFocused() : false;
+    if (focused !== isFocused) {
+      this.setState({ focused: isFocused });
+    }
+  }
+
+  focus() {
+    try {
+      this.textField.focus();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   render() {
     const { sections, colors } = this.props;
+    const { focused } = this.state;
 
     return (
       <View>
@@ -24,12 +42,12 @@ class _ComposedInputDropdown extends Component {
           {...this.props}
           noMargin
           ref={input => {
-            this.props.reference = input;
+            this.textField = input;
           }}
         />
-        {/* {this._renderModal()} */}
 
-        {sections &&
+        {focused &&
+          sections &&
           sections.length > 0 && (
             <SectionList
               keyboardShouldPersistTaps="always"
@@ -93,7 +111,7 @@ class _ComposedInputDropdown extends Component {
                   </Text>
                 </View>
               )}
-              keyExtractor={item => item.id.toString()}
+              keyExtractor={item => (item.id ? item.id.toString() : '')}
               ItemSeparatorComponent={ListSeparator}
             />
           )}
