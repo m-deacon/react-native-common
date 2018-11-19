@@ -26,7 +26,7 @@ class _View extends Component {
       <ScrollView
         // style={{ flex: 1 }}
         keyboardDismissMode={'interactive'}
-        keyboardShouldPersistTaps="handled">
+        keyboardShouldPersistTaps="always">
         {this.renderContent()}
       </ScrollView>
     );

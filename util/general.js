@@ -167,3 +167,54 @@ export function removeDuplicates(myArr, prop) {
     return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
   });
 }
+
+export function getPrimaryOrFirst(data) {
+  const temp = data.find(item => item.primary === true);
+  return temp ? temp : data[0] ? data[0] : {};
+}
+
+export function generateReceiveString(values) {
+  const {
+    recipientType,
+    currency,
+    amount,
+    memo,
+    note,
+    memoSelected,
+    amountSelected,
+    currencySelected,
+    noteSelected,
+  } = values;
+  let count = 0;
+
+  let value = '';
+
+  if (currencySelected) {
+    value =
+      value + (count > 0 ? '&' : '?') + 'currency=' + currency.currency.code;
+    count++;
+  }
+  if (amountSelected) {
+    value =
+      value +
+      (count > 0 ? '&' : '?') +
+      'amount=' +
+      formatDivisibility(amount, currency.currency.divisibility);
+    count++;
+  }
+  if (memoSelected && recipientType === 'crypto') {
+    value = value + (count > 0 ? '&' : '?') + 'memo=' + memo;
+    count++;
+  }
+  if (noteSelected) {
+    value = value + (count > 0 ? '&' : '?') + 'note=' + note;
+    count++;
+  }
+  value =
+    (recipientType === 'crypto' ? currency.crypto : 'rehive') +
+    ':' +
+    values[recipientType] +
+    (value ? value : '');
+
+  return value;
+}
