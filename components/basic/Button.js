@@ -35,10 +35,10 @@ class _Button extends Component {
     return {
       ...styles._buttonStyle,
       backgroundColor,
-      height: size === 'large' ? 40 : size === 'small' ? 30 : 36,
+      height: size === 'large' ? 44 : size === 'small' ? 30 : 36,
       borderRadius:
         design.roundButtons || round
-          ? size === 'large' ? 20 : size === 'small' ? 15 : 18
+          ? size === 'large' ? 22 : size === 'small' ? 15 : 18
           : 2.5,
       shadowRadius: design.buttonShadow,
       flex: wide ? 1 : 0,

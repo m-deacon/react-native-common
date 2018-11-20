@@ -185,15 +185,6 @@ class _View extends Component {
   }
 }
 
-const styles = {
-  fadeStyle: {
-    zIndex: 10,
-    height: 2,
-    position: 'absolute',
-    width: '100%',
-  },
-};
-
 _View.propTypes = {
   keyboardAvoiding: PropTypes.bool,
   scrollView: PropTypes.bool,
