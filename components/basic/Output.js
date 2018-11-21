@@ -33,7 +33,7 @@ class _Output extends Component {
           </View>
         </View>
         {copy ? <Icon name="content-copy" size={20} color={'black'} /> : null}
-        {onPress ? <Icon name="open-in-new" size={20} color={'black'} /> : null}
+        {/* {onPress ? <Icon name="open-in-new" size={20} color={'black'} /> : null} */}
       </View>
     );
   }

@@ -80,6 +80,8 @@ class _Button extends Component {
       textColor,
     } = this.props;
     const { _containerStyle } = styles;
+
+    const sizeInt = size === 'large' ? 26 : size === 'small' ? 18 : 22;
     return (
       <Animatable.View
         ref={reference}
@@ -93,20 +95,23 @@ class _Button extends Component {
           onPress={onPress}
           disabled={disabled}
           style={this._buttonStyle()}>
-          <View fD={'row'} aI={'center'}>
+          <React.Fragment>
+            <View fD={'row'} aI={'center'} jC={'center'}>
+              {icon ? (
+                <Icon name={icon} size={sizeInt} color={this.fontColor()} />
+              ) : null}
+              <View h={sizeInt} w={sizeInt} />
+              <Text t="bu" o={disabled ? 0.85 : 1} style={this.textStyle()}>
+                {label}
+              </Text>
+              <View h={sizeInt} w={sizeInt} />
+            </View>
             {loading ? (
-              <Spinner color={this.fontColor()} />
-            ) : icon ? (
-              <Icon
-                name={icon}
-                size={size === 'large' ? 26 : size === 'small' ? 18 : 22}
-                color={this.fontColor()}
-              />
+              <View pos={'absolute'} style={{ right: 0 }}>
+                <Spinner color={this.fontColor()} />
+              </View>
             ) : null}
-            <Text t="bu" o={disabled ? 0.85 : 1} style={this.textStyle()}>
-              {label}
-            </Text>
-          </View>
+          </React.Fragment>
         </TouchableOpacity>
       </Animatable.View>
     );

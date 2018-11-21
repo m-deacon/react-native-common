@@ -96,9 +96,8 @@ class _View extends Component {
     } = this.props;
 
     const viewProps = {
-      ...(behavior
-        ? { behavior }
-        : Platform.OS === 'ios' ? { behavior: 'padding' } : {}),
+      ...(behavior ? { behavior } : { behavior: 'padding' }),
+      // : Platform.OS !== 'ios' ? { behavior: 'padding' } : {}),
     };
 
     if (keyboardAvoiding) {
