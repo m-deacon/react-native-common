@@ -173,7 +173,7 @@ export function getPrimaryOrFirst(data) {
   return temp ? temp : data[0] ? data[0] : {};
 }
 
-export function generateReceiveString(values) {
+export function generateReceiveString(values, crypto) {
   const {
     recipientType,
     currency,
@@ -213,7 +213,9 @@ export function generateReceiveString(values) {
   value =
     (recipientType === 'crypto' ? currency.crypto : 'rehive') +
     ':' +
-    values[recipientType] +
+    (recipientType === 'crypto'
+      ? crypto[currency.crypto].address
+      : values[recipientType]) +
     (value ? value : '');
 
   return value;

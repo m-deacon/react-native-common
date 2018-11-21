@@ -109,7 +109,7 @@ class _Button extends Component {
               )}
             </View>
             {loading && wide ? (
-              <View pos={'absolute'} style={{ right: 0 }}>
+              <View pos={'absolute'} style={{ right: 4 }}>
                 <Spinner color={this.fontColor()} />
               </View>
             ) : null}
