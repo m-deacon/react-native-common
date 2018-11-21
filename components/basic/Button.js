@@ -77,7 +77,7 @@ class _Button extends Component {
       containerStyle,
       design,
       loading,
-      textColor,
+      wide,
     } = this.props;
     const { _containerStyle } = styles;
 
@@ -100,13 +100,15 @@ class _Button extends Component {
               {icon ? (
                 <Icon name={icon} size={sizeInt} color={this.fontColor()} />
               ) : null}
-              <View h={sizeInt} w={sizeInt} />
-              <Text t="bu" o={disabled ? 0.85 : 1} style={this.textStyle()}>
-                {label}
-              </Text>
-              <View h={sizeInt} w={sizeInt} />
+              {!wide && loading ? (
+                <Spinner color={this.fontColor()} />
+              ) : (
+                <Text t="bu" o={disabled ? 0.85 : 1} style={this.textStyle()}>
+                  {label}
+                </Text>
+              )}
             </View>
-            {loading ? (
+            {loading && wide ? (
               <View pos={'absolute'} style={{ right: 0 }}>
                 <Spinner color={this.fontColor()} />
               </View>
