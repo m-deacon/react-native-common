@@ -210,13 +210,29 @@ export function generateReceiveString(values, crypto) {
     value = value + (count > 0 ? '&' : '?') + 'note=' + note;
     count++;
   }
-  value =
-    (recipientType === 'crypto' ? currency.crypto : 'rehive') +
-    ':' +
-    (recipientType === 'crypto'
-      ? crypto[currency.crypto].address
-      : values[recipientType]) +
-    (value ? value : '');
+  let recipient = '';
+  if (recipientType === 'crypto') {
+    switch (currency.crypto) {
+      case 'XBT':
+      case 'TXBT':
+        recipient = 'bitcoin:';
+        break;
+      case 'XLM':
+      case 'TXLM':
+        recipient =
+          'stellar:' + crypto[currency.crypto].user.crypto.public_address;
+        break;
+      case 'ETH':
+      case 'TETH':
+        recipient = 'ethereum:';
+        break;
+      default:
+        recipient = '';
+    }
+  } else {
+    recipient = 'rehive:' + values[recipientType];
+  }
+  value = recipient + (value ? value : '');
 
   return value;
 }

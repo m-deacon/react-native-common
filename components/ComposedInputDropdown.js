@@ -49,71 +49,107 @@ class _ComposedInputDropdown extends Component {
         {focused &&
           sections &&
           sections.length > 0 && (
-            <SectionList
-              keyboardShouldPersistTaps="always"
-              style={{
-                backgroundColor: colors.grey1,
-                maxHeight: 140,
-                borderBottomLeftRadius: 5,
-                borderBottomRightRadius: 5,
-                overflow: 'hidden',
-                paddingBottom: 4,
-              }}
-              contentContainerStyle={{
-                borderBottomLeftRadius: 5,
-                borderBottomRightRadius: 5,
-                overflow: 'hidden',
-              }}
-              sections={sections}
-              renderItem={({ item, section }) => (
-                // <View style={{ height: 150 }} />
-                <ListItem
-                  onPress={() =>
-                    section.listItemOnPress ? section.listItemOnPress(item) : {}
-                  }
-                  title={
-                    section.listItemTitle ? section.listItemTitle(item) : item
-                  }
-                  subtitle={
-                    section.listItemSubtitle
-                      ? section.listItemSubtitle(item)
-                      : ''
-                  }
-                  image={
-                    section.listItemIcon
-                      ? section.listItemIcon(item)
-                      : item.image ? item.image : null
-                  }
-                />
-              )}
-              renderSectionHeader={({ section }) => (
-                <View
-                  style={{
-                    // paddingRight: 8,
-                    borderBottomWidth: 0.5,
-                    borderBottomColor: colors.font,
-                    // padding: 4,
-                    paddingTop: 8,
-                    paddingLeft: 16,
-                    backgroundColor: colors.grey1,
-                    borderBottomEndRadius: 8,
-                    borderBottomStartRadius: 8,
-                  }}>
-                  <Text
+            <View>
+              <SectionList
+                keyboardShouldPersistTaps="always"
+                style={{
+                  backgroundColor: colors.grey1,
+                  maxHeight: 170,
+                  borderBottomLeftRadius: 5,
+                  borderBottomRightRadius: 5,
+                  overflow: 'hidden',
+                  paddingBottom: 4,
+                }}
+                contentContainerStyle={{
+                  borderBottomLeftRadius: 5,
+                  borderBottomRightRadius: 5,
+                  overflow: 'hidden',
+                }}
+                sections={sections}
+                renderItem={({ item, section }) => (
+                  // <View style={{ height: 150 }} />
+                  <ListItem
+                    onPress={() =>
+                      section.listItemOnPress
+                        ? section.listItemOnPress(item)
+                        : {}
+                    }
+                    title={
+                      section.listItemTitle ? section.listItemTitle(item) : item
+                    }
+                    subtitle={
+                      section.listItemSubtitle
+                        ? section.listItemSubtitle(item)
+                        : ''
+                    }
+                    image={
+                      section.listItemIcon
+                        ? section.listItemIcon(item)
+                        : item.image ? item.image : null
+                    }
+                  />
+                )}
+                renderSectionHeader={({ section }) => (
+                  <View
                     style={{
-                      // backgroundColor: '#64B5F6',
-                      fontSize: 10,
-                      padding: 5,
-                      color: colors.font,
-                      fontWeight: 'bold',
+                      // paddingRight: 8,
+                      borderBottomWidth: 0.5,
+                      borderBottomColor: colors.font,
+                      // padding: 4,
+                      paddingTop: 8,
+                      paddingLeft: 16,
+                      backgroundColor: colors.grey1,
+                      borderBottomEndRadius: 8,
+                      borderBottomStartRadius: 8,
                     }}>
-                    {section.title}{' '}
-                  </Text>
-                </View>
-              )}
-              keyExtractor={item => (item.id ? item.id.toString() : '')}
-              ItemSeparatorComponent={ListSeparator}
-            />
+                    <Text
+                      style={{
+                        // backgroundColor: '#64B5F6',
+                        fontSize: 10,
+                        padding: 5,
+                        color: colors.font,
+                        fontWeight: 'bold',
+                      }}>
+                      {section.title}{' '}
+                    </Text>
+                  </View>
+                )}
+                keyExtractor={item => (item.id ? item.id.toString() : '')}
+                ItemSeparatorComponent={ListSeparator}
+              />
+              {/* <View
+                pos={'absolute'}
+                style={{ bottom: 12 }}
+                w={'100%'}
+                h={4}
+                o={0.2}
+                bC={'grey1'}
+              />
+              <View
+                pos={'absolute'}
+                style={{ bottom: 8 }}
+                w={'100%'}
+                h={4}
+                o={0.4}
+                bC={'grey1'}
+              />
+              <View
+                pos={'absolute'}
+                style={{ bottom: 4 }}
+                w={'100%'}
+                h={4}
+                o={0.65}
+                bC={'grey1'}
+              />
+              <View
+                pos={'absolute'}
+                style={{ bottom: 0 }}
+                w={'100%'}
+                h={4}
+                o={0.9}
+                bC={'grey1'}
+              /> */}
+            </View>
           )}
       </View>
     );
