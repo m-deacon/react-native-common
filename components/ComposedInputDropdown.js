@@ -116,6 +116,7 @@ class _ComposedInputDropdown extends Component {
                 )}
                 keyExtractor={item => (item.id ? item.id.toString() : '')}
                 ItemSeparatorComponent={ListSeparator}
+                showsVerticalScrollIndicator
               />
               {/* <View
                 pos={'absolute'}
