@@ -1,30 +1,23 @@
 export const formatDivisibility = (amount, divisibility) => {
-  // console.log('formatDivisibility:amount', amount);
-  // let temp = amount.toString();
-  // console.log('temp', temp);
-  // const pos = temp.length - divisibility;
-  // console.log('pos', pos);
-  // if (pos > 0) {
-  //   let temp2 = temp.slice(0, pos);
-  //   console.log('temp2', temp2);
-  //   let temp3 = temp.slice(pos);
-  //   console.log('temp3', temp3);
-  //   temp = temp2 + '.' + temp3;
-  //   // temp = temp.slice(pos, 0, '.');
-  // } else {
-  //   temp = '0.' + pos !== 0 ? '0'.repeat(-pos - 1) : '' + temp;
-  // }
-  // console.log('temp', temp);
-  // return temp;
-  // console.log('temp.length', temp.length);
-  //   const decimals = getDecimals()
-  // let tokenVolume = getBalance() * 10**-decimals
-  for (let i = 0; i < divisibility; i++) {
-    amount = amount / 10;
+  if (divisibility > 0) {
+    amount = amount / 10 ** divisibility;
   }
-  // console.log('amount', amount);
-  return amount.toFixed(divisibility);
+  const diff = amount.toString().length - Math.floor(amount).toString().length;
+  if (diff > 1) {
+    return amount;
+  }
+  return amount.toFixed(2);
 };
+
+// function firstNonRepeatedCharacter(string) {
+//   for (var i = 0; i < string.length; i++) {
+//     var c = string.charAt(i);
+//     if (string.indexOf(c) == i && string.indexOf(c, i + 1) == -1) {
+//       return c;
+//     }
+//   }
+//   return null;
+// }
 
 export const parseDivisibility = (raw, divisibility, newCharacter) => {
   let amountString = raw.replace('.', '');
