@@ -16,18 +16,13 @@ import context from '../context';
 import PropTypes from 'prop-types';
 
 class _View extends Component {
-  renderContent() {
-    const { children, keyboardAvoiding, scrollView } = this.props;
-    // if (keyboardAvoiding || scrollView) {
-    return <React.Fragment>{children}</React.Fragment>;
-  }
   renderScrollView() {
     return (
       <ScrollView
         // style={{ flex: 1 }}
         keyboardDismissMode={'interactive'}
         keyboardShouldPersistTaps="always">
-        {this.renderContent()}
+        {this.props.children}
       </ScrollView>
     );
   }
@@ -109,7 +104,7 @@ class _View extends Component {
           keyboardVerticalOffset={behavior === 'position' ? -90 : 0}
           //
         >
-          {scrollView ? this.renderScrollView() : this.renderContent()}
+          {scrollView ? this.renderScrollView() : this.props.children}
         </KeyboardAvoidingView>
       );
     }
@@ -178,7 +173,7 @@ class _View extends Component {
             />
           </_view>
         ) : null} */}
-        {scrollView ? this.renderScrollView() : this.renderContent()}
+        {scrollView ? this.renderScrollView() : this.props.children}
       </_view>
     );
   }
