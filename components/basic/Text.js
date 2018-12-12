@@ -130,7 +130,7 @@ _Text.propTypes = {
   rem: PropTypes.number, // rem value,
   tA: PropTypes.string, // textAlign
   lH: PropTypes.number, // lineHeight
-  style: PropTypes.object, // TODO: TextPropTypes.style, // override text style
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]), // TODO: TextPropTypes.style, // override text style
 };
 
 _Text.defaultProps = {
