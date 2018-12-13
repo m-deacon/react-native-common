@@ -42,6 +42,7 @@ class _Button extends Component {
           : 2.5,
       shadowRadius: design.buttonShadow,
       flex: wide ? 1 : 0,
+      paddingHorizontal: design.roundButtons ? 16 : 8,
       ...buttonStyle,
     };
   }

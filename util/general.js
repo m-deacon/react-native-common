@@ -188,11 +188,8 @@ export function generateReceiveString(values, crypto) {
     count++;
   }
   if (amountSelected) {
-    value =
-      value +
-      (count > 0 ? '&' : '?') +
-      'amount=' +
-      formatDivisibility(amount, currency.currency.divisibility);
+    value = value + (count > 0 ? '&' : '?') + 'amount=' + amount;
+    // formatDivisibility(amount, currency.currency.divisibility);
     count++;
   }
   if (memoSelected && recipientType === 'crypto') {

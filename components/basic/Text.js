@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 
 class _Text extends Component {
   typography(typeScale) {
+    const { design } = this.props;
     // default values are for body1
     let fontSize = 16;
     // let typeFace = '';
@@ -61,7 +62,7 @@ class _Text extends Component {
       case 'bu':
         fontSize = 14;
         letterSpacing = 1.25;
-        fontWeight = '700';
+        fontWeight = design.buttonTextBold ? '700' : '400';
         // textTransform = 'uppercase';
         break;
       case 'c':
