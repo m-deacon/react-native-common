@@ -9,10 +9,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { MaterialIcons } from '@expo/vector-icons';
-// import CountryPicker from 'react-native-country-picker-modal';
-// import { ListItem, ListSeparator } from './ListItem';
 import context from '../context';
-// import { TextInputMask } from 'react-native-masked-text';
 
 class _Input extends Component {
   state = {

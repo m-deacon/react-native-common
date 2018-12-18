@@ -6,11 +6,8 @@ import PropTypes from 'prop-types';
 import context from './context';
 import { SectionList } from 'react-native';
 import { View } from './basic/View';
-import { safe } from '../util/general';
-import { Checkbox } from './basic/Checkbox';
 import { TextField } from '../../react-native-material-textfield';
 
-import Modal from 'react-native-modal';
 import { Text } from './basic/Text';
 import { ListItem, ListSeparator } from '../../../app/components/common';
 
