@@ -35,14 +35,19 @@ class _Button extends Component {
     return {
       ...styles._buttonStyle,
       backgroundColor,
-      height: size === 'large' ? 44 : size === 'small' ? 30 : 36,
+      height:
+        size === 'large'
+          ? 44
+          : size === 'small' ? 30 : size === 'tiny' ? 26 : 36,
       borderRadius:
-        design.roundButtons || round
-          ? size === 'large' ? 22 : size === 'small' ? 15 : 18
+        design.buttons.rounded || round
+          ? size === 'large'
+            ? 22
+            : size === 'small' ? 15 : size === 'tiny' ? 12 : 18
           : 2.5,
-      shadowRadius: design.buttonShadow,
+      shadowRadius: design.buttons.shadow,
       flex: wide ? 1 : 0,
-      paddingHorizontal: design.roundButtons ? 16 : 8,
+      paddingHorizontal: design.buttons.rounded ? 16 : 8,
       ...buttonStyle,
     };
   }
@@ -52,7 +57,10 @@ class _Button extends Component {
 
     return {
       color: this.fontColor(),
-      fontSize: size === 'large' ? 18 : size === 'small' ? 12 : 14,
+      fontSize:
+        size === 'large'
+          ? 18
+          : size === 'small' ? 12 : size === 'tiny' ? 10 : 14,
       ...textStyle,
     };
   }
@@ -81,14 +89,14 @@ class _Button extends Component {
       wide,
     } = this.props;
     const { _containerStyle } = styles;
-
-    const sizeInt = size === 'large' ? 26 : size === 'small' ? 18 : 22;
+    const sizeInt =
+      size === 'large' ? 26 : size === 'small' ? 18 : size === 'tiny' ? 14 : 22;
     return (
       <Animatable.View
         ref={reference}
         style={[
           _containerStyle,
-          { elevation: design.buttonElevation },
+          { elevation: design.buttons.elevation },
           containerStyle,
         ]}
         animation={animation}>
@@ -156,7 +164,7 @@ _Button.defaultProps = {
   buttonStyle: {},
   containerStyle: {},
   color: 'primary',
-  design: { roundButtons: false },
+  design: {},
   wide: false,
   loading: false,
 };

@@ -19,39 +19,39 @@ class _Text extends Component {
     let letterSpacing = 0.5;
     switch (typeScale) {
       case 'h1':
-        fontSize = 96;
+        fontSize = 48;
         fontWeight = '300';
         letterSpacing = -1.5;
         break;
       case 'h2':
-        fontSize = 60;
+        fontSize = 34;
         fontWeight = '300';
         letterSpacing = -0.5;
         break;
       case 'h3':
-        fontSize = 48;
+        fontSize = 28;
         letterSpacing = 0;
         break;
       case 'h4':
-        fontSize = 34;
+        fontSize = 24;
         letterSpacing = 0.25;
         break;
       case 'h5':
-        fontSize = 24;
+        fontSize = 20;
         letterSpacing = 0;
         break;
       case 'h6':
-        fontSize = 20;
+        fontSize = 16;
         fontWeight = '700';
         letterSpacing = 0.15;
         break;
       case 's1':
-        fontSize = 16;
+        fontSize = 14;
         letterSpacing = 0.15;
         fontStyle = 'italic';
         break;
       case 's2':
-        fontSize = 14;
+        fontSize = 12;
         letterSpacing = 0.1;
         fontStyle = 'italic';
         break;
@@ -62,7 +62,7 @@ class _Text extends Component {
       case 'bu':
         fontSize = 14;
         letterSpacing = 1.25;
-        fontWeight = design.buttonTextBold ? '700' : '500';
+        fontWeight = design.buttons.bold ? '700' : '500';
         // textTransform = 'uppercase';
         break;
       case 'c':

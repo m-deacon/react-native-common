@@ -2,15 +2,7 @@
 /* Component | Stateless | Styled */
 /* This is the main button component. Takes props to adjust it's size, type, color etc */
 import React, { Component } from 'react';
-import {
-  View as _view,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Keyboard,
-  ViewPropTypes,
-  ScrollView,
-  Platform,
-} from 'react-native';
+import { View as _view, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { Constants } from 'expo';
 import context from '../context';
 import PropTypes from 'prop-types';
@@ -115,7 +107,7 @@ class _View extends Component {
             style={{
               height: Constants.statusBarHeight,
               backgroundColor: hC
-                ? colors[design.surface ? 'surface' : hC]
+                ? colors[design.app.surface ? 'surface' : hC]
                 : bC ? colors[bC] : 'transparent',
               zIndex: 5,
             }}>
@@ -206,7 +198,7 @@ _View.propTypes = {
   fD: PropTypes.string, // flexDirection
   aI: PropTypes.string, // alignItems
   jC: PropTypes.string, // justifyContent
-  style: PropTypes.object, // TODO: ViewPropTypes.style, // override text style
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]), // TODO: ViewPropTypes.style, // override text style
   header: PropTypes.bool, // TODO: ViewPropTypes.style, // override text style
 };
 

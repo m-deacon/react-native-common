@@ -156,7 +156,7 @@ _SectionList.defaultProps = {
   buttonStyle: {},
   containerStyle: {},
   color: 'primary',
-  design: { roundButtons: false },
+  design: {},
   wide: false,
   loading: false,
 };
