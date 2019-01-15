@@ -6,7 +6,7 @@ import context from '../context';
 
 class _Output extends Component {
   renderOutput() {
-    const { label, value, copy, onPress, colors } = this.props;
+    const { label, value, copy, onPress, colors, right } = this.props;
 
     const {
       viewStyleContent,
@@ -17,7 +17,8 @@ class _Output extends Component {
     } = styles;
 
     return (
-      <View style={viewStyleContent}>
+      <View
+        style={[viewStyleContent, right ? { justifyContent: 'flex-end' } : {}]}>
         <View style={{ flex: 1 }}>
           {value && label ? (
             <View style={viewStyleLabel}>
